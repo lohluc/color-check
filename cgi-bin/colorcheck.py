@@ -1,22 +1,18 @@
 #!/usr/local/bin/python3
 import cgi
 import os
+from colors import color_info
 
 form = cgi.FieldStorage()
-color = form.getvalue("color")
-path = "/Users/l2/Dev/learning/foundation/color-check/cgi-bin/colors.txt"
-
-colordoc = open(path, "r")
-content = colordoc.read()
+form_input = form.getvalue("color")
 
 found = False
-if (color.lower() in content):
+if (form_input.lower() in color_info) or (form_input.lower() in color_info.values()):
     found = True
 
-colordoc.close()
-
 if found:
-    output = "Awesome! " + color + " is a nice color! 💯"
+    for key, value in color_info.items():
+        output = "What a beautiful color! 🤩 " + color_info[form_input].capitalize()
 else:
     output = "Oh no... I don't know this color! 🥺" 
 
@@ -44,6 +40,6 @@ html = """
                 </p>
         </div>
     </body> 
-  </html>""".format(output, color, output)
+  </html>""".format(output, form_input, output)
 
 print(html)
